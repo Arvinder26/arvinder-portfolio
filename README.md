@@ -28,6 +28,7 @@ npm run build
 - `src/content.ts` — typed source of truth for profile, projects, toolkit, education, and experience
 - `src/components` — shared site chrome, diagrams, SEO, and reveal behaviour
 - `src/pages` — homepage and project case-study layouts
+- `scripts` — production delivery adapter for the hosted Sites build
 
 ## Update content or add a project
 
