@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   additionalProjects,
@@ -20,15 +20,15 @@ import { Seo } from '../components/Seo'
 const flagshipProjects = projects.filter((project) => project.priority === 'flagship')
 const technicalProjects = projects.filter((project) => project.priority !== 'flagship')
 
-function Stage({ stage, isLast }: { stage: DiagramStage; isLast: boolean }) {
+function Stage({ stage, index, isLast }: { stage: DiagramStage; index: number; isLast: boolean }) {
   return (
-    <>
-      <span className="diagram-stage" tabIndex={0}>
-        <span>{stage.label}</span>
-        <small role="tooltip">{stage.note}</small>
+    <li className={`diagram-node${isLast ? ' is-last' : ''}`}>
+      <span className="diagram-stage">
+        <span className="diagram-stage-number">{String(index + 1).padStart(2, '0')}</span>
+        <strong>{stage.label}</strong>
+        <span className="sr-only">: {stage.note}</span>
       </span>
-      {!isLast && <span className="diagram-arrow" aria-hidden="true">→</span>}
-    </>
+    </li>
   )
 }
 
@@ -53,16 +53,16 @@ function EngineeringProof() {
                 <p>{diagram.descriptor}</p>
               </div>
             </div>
-            <div className="diagram-path">
+            <ol className="diagram-path">
               {diagram.stages.map((stage, index) => (
-                <Stage key={stage.label} stage={stage} isLast={index === diagram.stages.length - 1} />
+                <Stage key={stage.label} stage={stage} index={index} isLast={index === diagram.stages.length - 1} />
               ))}
-            </div>
+            </ol>
           </section>
         ))}
       </div>
 
-      <p className="proof-hint">Focus or hover a stage to inspect its responsibility.</p>
+      <p className="proof-hint">A compact view of each production path.</p>
     </aside>
   )
 }
@@ -82,7 +82,7 @@ function SectionIntro({ index, label, title, copy }: { index: string; label: str
 function FeaturedProject({ project, index }: { project: Project; index: number }) {
   return (
     <Reveal className={`featured-project${project.priority === 'flagship' ? ' is-flagship' : ''}${index === 0 ? ' is-primary' : ''}`}>
-      <article style={{ '--project-accent': project.accent } as CSSProperties}>
+      <article>
         <header className="project-heading">
           <div>
             <p className="mono-label">{String(index + 1).padStart(2, '0')} / {project.kicker}</p>

@@ -1,20 +1,27 @@
 :root {
-  font-family: "Aptos", "Segoe UI Variable", "Helvetica Neue", Arial, sans-serif;
-  color: #111318;
-  background: #f5f3ee;
+  --font-sans: "Segoe UI Variable", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
+  color: #151922;
+  background: #f7f6f2;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --ink: #111318;
-  --muted: #5e6673;
-  --paper: #f5f3ee;
+  --ink: #151922;
+  --muted: #5b6472;
+  --paper: #f7f6f2;
   --surface: #ffffff;
-  --line: #d7d9de;
-  --accent: #2457f5;
-  --accent-dark: #173bb1;
-  --technical: #0b1020;
-  --success: #23634b;
-  --mono: "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
+  --surface-soft: #f0f2f6;
+  --line: #d9dde4;
+  --accent: #315ee8;
+  --accent-dark: #2446b5;
+  --accent-soft: #e8edff;
+  --technical: #111827;
+  --technical-surface: #182235;
+  --technical-line: #354158;
+  --technical-text: #f4f6fb;
+  --technical-muted: #aeb8ca;
+  --success: #24624b;
+  --mono: var(--font-sans);
 }
 
 * { box-sizing: border-box; }

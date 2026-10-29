@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArchitecturePath, ProjectVisual } from '../components/ProjectVisual'
 import { Reveal } from '../components/Reveal'
@@ -57,7 +57,7 @@ export function CaseStudyPage() {
   }
 
   return (
-    <article className="case-study" style={{ '--project-accent': project.accent } as CSSProperties}>
+    <article className="case-study">
       <Seo project={project} />
       <ReadingProgress />
 
