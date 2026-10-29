@@ -80,7 +80,25 @@ function GameVisual() {
   )
 }
 
+function ProductionVisual({ project }: { project: Project }) {
+  if (!project.media) return null
+
+  return (
+    <div className={`project-visual production-visual production-visual--${project.visual}`}>
+      <div className="visual-caption"><span>PRODUCTION WORK</span><span>{project.media.label}</span></div>
+      <div className="production-artwork">
+        <img src={project.media.src} alt={project.media.alt} loading="lazy" />
+      </div>
+      <div className="production-proof">
+        <span>{project.relationship}</span>
+        <strong>{project.role}</strong>
+      </div>
+    </div>
+  )
+}
+
 export function ProjectVisual({ project }: { project: Project }) {
+  if (project.media) return <ProductionVisual project={project} />
   if (project.visual === 'booking') return <BookingVisual project={project} />
   if (project.visual === 'vineyard') return <VineyardVisual project={project} />
   return <GameVisual />

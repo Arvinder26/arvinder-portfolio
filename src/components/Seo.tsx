@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import type { Project } from '../content'
 
 const SITE_ORIGIN = 'https://arvinder-portfolio-five.vercel.app'
-const DEFAULT_DESCRIPTION = 'Auckland-based software developer and AUT graduate building full-stack web platforms, IoT systems, cross-platform mobile applications, Unity projects, and low-level C software.'
+const DEFAULT_DESCRIPTION = 'Auckland-based software developer and AUT graduate delivering production client platforms, bilingual publishing systems, booking and operations software, IoT systems, and cross-platform applications.'
 
 function setMeta(selector: string, attribute: 'name' | 'property', key: string, content: string) {
   let element = document.head.querySelector<HTMLMetaElement>(selector)
@@ -51,7 +51,10 @@ export function Seo({ project }: { project?: Project }) {
         name: project.title,
         description: project.summary,
         creator: { '@type': 'Person', name: 'Arvinder Singh' },
-        url: canonicalUrl,
+        url: project.liveUrl ?? canonicalUrl,
+        mainEntityOfPage: canonicalUrl,
+        image: project.media ? `${SITE_ORIGIN}${project.media.src}` : undefined,
+        sameAs: [project.liveUrl, project.repositoryUrl].filter(Boolean),
         keywords: project.technologies.join(', '),
       })
       document.head.appendChild(script)

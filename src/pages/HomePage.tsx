@@ -17,6 +17,9 @@ import { ProjectVisual } from '../components/ProjectVisual'
 import { Reveal } from '../components/Reveal'
 import { Seo } from '../components/Seo'
 
+const flagshipProjects = projects.filter((project) => project.priority === 'flagship')
+const technicalProjects = projects.filter((project) => project.priority !== 'flagship')
+
 function Stage({ stage, isLast }: { stage: DiagramStage; isLast: boolean }) {
   return (
     <>
@@ -78,20 +81,22 @@ function SectionIntro({ index, label, title, copy }: { index: string; label: str
 
 function FeaturedProject({ project, index }: { project: Project; index: number }) {
   return (
-    <Reveal className={`featured-project${index === 0 ? ' is-primary' : ''}`}>
+    <Reveal className={`featured-project${project.priority === 'flagship' ? ' is-flagship' : ''}${index === 0 ? ' is-primary' : ''}`}>
       <article style={{ '--project-accent': project.accent } as CSSProperties}>
         <header className="project-heading">
           <div>
-            <p className="mono-label">0{index + 1} / {project.kicker}</p>
+            <p className="mono-label">{String(index + 1).padStart(2, '0')} / {project.kicker}</p>
             <h3>{project.title}</h3>
           </div>
-          <span className="project-type">{project.visual === 'booking' ? 'WEB' : project.visual === 'vineyard' ? 'IOT' : 'UNITY'}</span>
+          <span className="project-type">{project.typeLabel ?? 'BUILD'}</span>
         </header>
 
         <div className="project-feature-grid">
           <div className="project-story">
             <p className="project-summary">{project.summary}</p>
             <dl className="evidence-grid">
+              {project.relationship && <div><dt>Ownership</dt><dd>{project.relationship}</dd></div>}
+              {project.role && <div><dt>Role</dt><dd>{project.role}</dd></div>}
               <div><dt>Need</dt><dd>{project.problem}</dd></div>
               <div><dt>Built</dt><dd>{project.contribution.slice(0, 2).join(' ')}</dd></div>
               <div><dt>Constraint</dt><dd>{project.constraints[0]}</dd></div>
@@ -100,7 +105,10 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
             <div className="tech-line" aria-label="Technologies used">
               {project.technologies.map((technology) => <span key={technology}>{technology}</span>)}
             </div>
-            <Link className="text-link" to={`/work/${project.slug}`}>Read {project.shortTitle} case study <span aria-hidden="true">↗</span></Link>
+            <div className="project-actions">
+              <Link className="text-link" to={`/work/${project.slug}`}>Read detailed case study <span aria-hidden="true">↗</span></Link>
+              {project.liveUrl && <a className="text-link" href={project.liveUrl} target="_blank" rel="noreferrer">Visit live website <span aria-hidden="true">↗</span></a>}
+            </div>
           </div>
           <ProjectVisual project={project} />
         </div>
@@ -144,7 +152,7 @@ export function HomePage() {
             I build reliable software from the interface to the <em>system beneath it.</em>
           </h1>
           <p className="hero-intro hero-enter hero-enter-3">
-            I’m Arvinder Singh, an AUT graduate in Software Development and Finance. My work spans secure web workflows, IoT monitoring, cross-platform mobile applications, Unity systems, and low-level C programming.
+            I’m Arvinder Singh, an AUT graduate in Software Development and Finance. I design, build, launch, and maintain production web platforms—from client news and advisory websites to the booking and operations system behind my own transport business.
           </p>
           <div className="hero-actions hero-enter hero-enter-4">
             <a className="button button-primary" href="#work">Explore selected work <span aria-hidden="true">↘</span></a>
@@ -166,14 +174,21 @@ export function HomePage() {
       </section>
 
       <section className="page-section work-section" id="work">
-        <Reveal><SectionIntro index="01" label="SELECTED WORK" title="Selected engineering work" copy="Projects selected for their technical range, system thinking, and evidence of professional software practices." /></Reveal>
+        <Reveal><SectionIntro index="01" label="PRODUCTION & CLIENT WORK" title="Built from brief to production" copy="Three live projects showing client delivery, full-stack implementation, operational thinking, deployment, and ongoing ownership—not tutorial builds or isolated interface concepts." /></Reveal>
         <div className="featured-work-list">
-          {projects.map((project, index) => <FeaturedProject project={project} index={index} key={project.slug} />)}
+          {flagshipProjects.map((project, index) => <FeaturedProject project={project} index={index} key={project.slug} />)}
+        </div>
+      </section>
+
+      <section className="page-section technical-work-section">
+        <Reveal><SectionIntro index="02" label="TECHNICAL FOUNDATIONS" title="Additional engineering depth" copy="Academic and independent projects that demonstrate payments, IoT telemetry, interactive systems, low-level programming, and cross-platform development." /></Reveal>
+        <div className="featured-work-list technical-work-list">
+          {technicalProjects.map((project, index) => <FeaturedProject project={project} index={index + flagshipProjects.length} key={project.slug} />)}
         </div>
       </section>
 
       <section className="page-section practice-section" id="practice">
-        <Reveal><SectionIntro index="02" label="ENGINEERING PRACTICE" title="How I approach software delivery" copy="A practical loop for moving from an understood problem to a system that can be checked and improved." /></Reveal>
+        <Reveal><SectionIntro index="03" label="ENGINEERING PRACTICE" title="How I approach software delivery" copy="A practical loop for moving from an understood problem to a system that can be launched, checked, operated, and improved." /></Reveal>
         <ol className="practice-model">
           {practiceStages.map((stage, index) => (
             <li key={stage.name}>
@@ -187,12 +202,12 @@ export function HomePage() {
       </section>
 
       <section className="page-section additional-work">
-        <Reveal><SectionIntro index="03" label="PROJECT INDEX" title="Additional project range" copy="More contexts where I have applied interface design, application state, platform tooling, and low-level debugging." /></Reveal>
+        <Reveal><SectionIntro index="04" label="PROJECT INDEX" title="Additional project range" copy="More contexts where I have applied interface design, application state, platform tooling, and low-level debugging." /></Reveal>
         <div className="project-index">
           {additionalProjects.map((project, index) => (
             <article key={project.title}>
               <div className="index-heading">
-                <span className="mono-label">0{index + 4} / {project.context}</span>
+                <span className="mono-label">{String(index + 7).padStart(2, '0')} / {project.context}</span>
                 <h3>{project.title}</h3>
               </div>
               <div>
@@ -206,7 +221,7 @@ export function HomePage() {
       </section>
 
       <section className="page-section toolkit-section">
-        <Reveal><SectionIntro index="04" label="TECHNICAL TOOLKIT" title="Tools used in context" copy="Technologies are grouped by where I have applied them—not by arbitrary percentages." /></Reveal>
+        <Reveal><SectionIntro index="05" label="TECHNICAL TOOLKIT" title="Tools used in context" copy="Technologies are grouped by where I have applied them—not by arbitrary percentages." /></Reveal>
         <div className="toolkit-grid">
           {toolkit.map((group) => (
             <article key={group.group}>
@@ -218,7 +233,7 @@ export function HomePage() {
       </section>
 
       <section className="page-section about-section" id="about">
-        <Reveal><SectionIntro index="05" label="ABOUT & EDUCATION" title="Software thinking with commercial context" /></Reveal>
+        <Reveal><SectionIntro index="06" label="ABOUT & EDUCATION" title="Software thinking with commercial context" /></Reveal>
         <div className="about-grid">
           <div className="about-copy">
             <p>I studied Software Development and Finance as a conjoint degree at AUT. That combination shaped how I approach projects: understand the user and business problem, choose an appropriate technical solution, and validate that the system behaves reliably.</p>
@@ -237,7 +252,7 @@ export function HomePage() {
       </section>
 
       <section className="page-section experience-section" id="experience">
-        <Reveal><SectionIntro index="06" label="PROFESSIONAL EXPERIENCE" title="Reliability beyond the codebase" copy="Customer-facing work built the habits that support dependable delivery: communication, prioritisation, teamwork, and close attention to detail." /></Reveal>
+        <Reveal><SectionIntro index="07" label="PROFESSIONAL EXPERIENCE" title="Reliability beyond the codebase" copy="Customer-facing work built the habits that support dependable delivery: communication, prioritisation, teamwork, and close attention to detail." /></Reveal>
         <div className="experience-timeline">
           {experience.map((item) => (
             <article key={`${item.company}-${item.date}`}>
@@ -251,7 +266,7 @@ export function HomePage() {
 
       <section className="contact-section" id="contact">
         <div className="contact-inner">
-          <p className="mono-label">07 / CONTACT</p>
+          <p className="mono-label">08 / CONTACT</p>
           <h2>Let’s build something dependable.</h2>
           <p>I’m open to graduate and junior software development opportunities in Auckland, across New Zealand, or in suitable remote teams.</p>
           <div className="contact-actions">

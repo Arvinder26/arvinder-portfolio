@@ -22,6 +22,9 @@ npm run build
 ## Site structure
 
 - `/` — recruiter-focused homepage
+- `/work/pn-media` — PN Media client newsroom case study
+- `/work/path-planner` — PATHPlanner client website case study
+- `/work/cruzycabs` — founder-owned booking and operations platform case study
 - `/work/fade-plug` — Fade Plug booking platform case study
 - `/work/smart-vineyard` — Smart Vineyard IoT case study
 - `/work/recursed` — RECurseD Unity case study
@@ -41,7 +44,7 @@ The current routes use the `ProjectSlug` type. To add a detailed project:
 3. Add the public route to `public/sitemap.xml`.
 4. Verify the route directly and from previous/next navigation.
 
-Only render repository and live-demo links when a verified destination is available.
+Only render repository and live-demo links when a verified destination is available. PN Media and PATHPlanner are identified as client projects; Cruzy Cabs is identified as Arvinder's founder-owned business.
 
 ## Replace or add project media
 
@@ -66,7 +69,6 @@ Do not expose the phone number in public site content unless Arvinder explicitly
 
 ## Content still requiring confirmation
 
-- Verified repository and live-demo URLs for individual projects.
 - Approved Fade Plug interface captures.
 - Smart Vineyard prototype photos and ThingsBoard dashboard graphs.
 - An approved RECurseD gameplay capture and Blender production media.
